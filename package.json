@@ -1,22 +1,21 @@
 {
-  "name": "projet_tspark",
+  "name": "tspark",
   "version": "1.0.0",
-  "description": "Projet TSPark - Back-end d'une appli de salle de gym",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "run": "node dist/index.js"
-    },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kpajro/Projet_TSPark.git"
+    "build": "npx tsc && node dist/index.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kpajro/Projet_TSPark/issues"
+  "description": "",
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.5",
+    "typescript": "^5.9.3"
   },
-  "homepage": "https://github.com/kpajro/Projet_TSPark#readme"
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  }
 }
