@@ -8,14 +8,20 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Projet TSPark - API de gestion de salles de sport",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpajro/Projet_TSPark.git"
+  },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongoose": "^9.0.0"
   }
 }

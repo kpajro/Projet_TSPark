@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-    res.status(400).send('hello');
-})
+    res.status(200).send('hello');
+});
 
 app.listen(port, () => {console.log(`App running locally at localhost:${port}`)});
