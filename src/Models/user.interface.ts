@@ -7,6 +7,7 @@ export enum Roles{
 }
 
 export interface User{
+    id: number
     name: string
     role: Roles
     actif: boolean
