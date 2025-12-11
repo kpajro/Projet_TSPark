@@ -1,3 +1,6 @@
 export * from "./user.controller"
 export * from "./salleentrainement.controller"
 export * from "./exercices.controller"
+export * from "./salledesport.controller"
+export * from "./defis.controller"
+export * from "./seance.controller"

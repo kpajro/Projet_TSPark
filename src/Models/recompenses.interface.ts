@@ -4,7 +4,8 @@ enum TypeRecompense{
 }
 
 export interface Recompense{
-    int: number
+    id: number
     nom: string
     type: TypeRecompense
+    points: number
 }

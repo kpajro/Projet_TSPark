@@ -21,6 +21,20 @@ export class SalleEntrainementController{
         }
     }
 
+    async approveSalle(req: Request, res: Response){
+        try {
+            const salle = req.body as SalleEntrainement
+            const salleid = Number(req.body.params)
+            const out = await this.salleEntrainementService.approveSalle(salle, salleid)
+            if(!out){
+                return res.status(400).json({message: "n'a pas pu accepter, salle existe pas"})
+            }
+            res.json(`Salle ${salleid} approuvée!`)
+        }catch(err){
+            res.status(400).json({message: "pas pu accepter ", error: err})
+        }
+    }
+
     async modifySalle(req: Request, res: Response){
         try {
             const salle = req.body as SalleEntrainement
