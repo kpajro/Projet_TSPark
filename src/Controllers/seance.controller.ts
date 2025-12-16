@@ -13,7 +13,7 @@ export class SeanceController{
         try {
             const seance = req.body as Seance
             await this.seanceService.addSession(seance)
-            res.json("séance enregistrée")
+            res.status(200).json("séance enregistrée")
         } catch (err) {
             res.status(400).json({ message: "error add session", error: err })
         }
@@ -25,7 +25,7 @@ export class SeanceController{
 
             const progression = await this.seanceService.getProgression(userId, defiId)
 
-            res.json(progression)
+            res.status(200).json(progression)
         } catch (err) {
             res.status(400).json({ message: "error progression", error: err })
         }

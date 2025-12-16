@@ -11,7 +11,7 @@ export class UserController{
 
     async GetUsers(req: Request, res: Response){
         const users = await this.UserService.FindUsers();
-        res.json(users);
+        res.status(200).json(users);
     }
 
     async ToggleUser(req: Request, res: Response){
@@ -23,7 +23,7 @@ export class UserController{
             }
 
             await this.UserService.ActiveUser(userIds)
-            res.json({ message: `Users updated: ${userIds}`})
+            res.status(200).json({ message: `Users updated: ${userIds}`})
         } catch (err) {
             res.status(400).json({message: "Toggle Users Request failed", error: err})
         }
@@ -37,7 +37,7 @@ export class UserController{
                 return res.status(400).json({message: "userIds doit être un array et peuplé"})
             }
             await this.UserService.DeleteUsers(userIds)
-            res.json({message: `Users deleted: ${userIds}`})
+            res.status(200).json({message: `Users deleted: ${userIds}`})
         } catch(err){
             res.status(400).json({message: "Delete Users Request failed", error: err})
         }

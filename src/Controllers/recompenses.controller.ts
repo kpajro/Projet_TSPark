@@ -1,4 +1,4 @@
-import { Recompense } from "../Models";
+import { Accomplissement, Recompense } from "../Models";
 import { RecompensesService } from "../Services/recompenses.service";
 import { Request, Response, Router} from "express"
 
@@ -20,13 +20,20 @@ export class recompenseController{
     }
 
     async assignRecompense(req: Request, res: Response){
-        
+        try {
+            const recompense = req.body as Accomplissement
+            const result = await this.recompenseService.assignRecompense(recompense)
+            res.status(200).json({ message: "récompense attribuée", data: result })
+        } catch (err) {
+            res.status(400).json({ message: "error assignRecompense", error: err })
+        }
     }
 
     buildRouter(): Router{
         const router = Router()
 
         router.post("/create-recompense", this.createRecompense.bind(this))
+        router.post("/assing-recompense", this.assignRecompense.bind(this))
 
         return router
     }

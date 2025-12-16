@@ -16,53 +16,58 @@ export class DefiController{
             await this.defiService.createDefi(defi)
             res.status(200).json("defi crée")
         }catch (err){
-            res.status(400).json({message: "", error:err})
+            res.status(400).json({message: "error create défi", error:err})
         }
         
     }
 
     async inviteUser(req: Request, res: Response) {
-        const { defiId, userId } = req.body
-        await this.defiService.inviteUser(defiId, userId)
-        res.json("Invitation envoyée")
+        try {
+            const { defiId, userId } = req.body
+            await this.defiService.inviteUser(defiId, userId)
+            res.json("Invitation envoyée")
+        } catch (err) {
+            res.status(400).json({ message: "error inviteUser", error: err })
+        }
     }
 
     async acceptDefi(req: Request, res: Response) {
-        const { defiId, userId } = req.body
-        await this.defiService.acceptDefi(defiId, userId)
-        res.json("Défi accepté")
+        try {
+            const { defiId, userId } = req.body
+            await this.defiService.acceptDefi(defiId, userId)
+            res.json("Défi accepté")
+        } catch (err) {
+            res.status(400).json({ message: "error acceptDefi", error: err })
+        }
     }
 
     async completeDefi(req: Request, res: Response) {
-        const { defiId, userId } = req.body
-        await this.defiService.completeDefi(defiId, userId)
-        res.json("Défi complété")
+        try {
+            const { defiId, userId } = req.body
+            await this.defiService.completeDefi(defiId, userId)
+            res.status(200).json("Défi complété")
+        } catch (err) {
+            res.status(400).json({ message: "error completeDefi", error: err })
+        }
     }
+
     async getMyDefis(req: Request, res: Response) {
-        const userId = Number(req.params.userId)
-        const defis = await this.defiService.getUserSocialDefis(userId)
-        res.json(defis)
+        try {
+            const userId = Number(req.params.userId)
+            const defis = await this.defiService.getUserSocialDefis(userId)
+            res.status(200).json(defis)
+        } catch (err) {
+            res.status(400).json({ message: "error getMyDefis", error: err })
+        }
     }
 
     async exploreDefis(req: Request, res: Response) {
         try {
-            const difficulte = req.query.difficulte
-                ? Number(req.query.difficulte)
-                : undefined
-
+            const difficulte = req.query.difficulte ? Number(req.query.difficulte) : undefined
             const type = req.query.type as string | undefined
-
-            const duree = req.query.duree
-                ? Number(req.query.duree)
-                : undefined
-
-            const defis = await this.defiService.exploreDefis(
-                difficulte,
-                type,
-                duree
-            )
-
-            res.json(defis)
+            const duree = req.query.duree ? Number(req.query.duree) : undefined
+            const defis = await this.defiService.exploreDefis( difficulte, type, duree)
+            res.status(200).json(defis)
         } catch (err) {
             res.status(400).json({ message: "error explore defis", error: err })
         }
@@ -76,7 +81,7 @@ export class DefiController{
             }
 
             await this.defiService.shareDefi(defiId, userIds)
-            res.json("defi partagé")
+            res.status(200).json("defi partagé")
         } catch (err) {
             res.status(400).json({ message: "error share defi", error: err })
         }
@@ -86,7 +91,7 @@ export class DefiController{
         try {
             const defi = req.body as Defis
             await this.defiService.proposeDefiForSalle(defi)
-            res.json("defi proposé à la salle")
+            res.status(200).json("defi proposé à la salle")
         } catch (err) {
             res.status(400).json({ message: "error propose defi", error: err })
         }
@@ -96,7 +101,7 @@ export class DefiController{
         try {
             const defiId = Number(req.params.id)
             await this.defiService.approveDefi(defiId, 50)
-            res.json("defi approuvé + score ajouté")
+            res.status(200).json("defi approuvé + score ajouté")
         } catch (err) {
             res.status(400).json({ message: "error approve defi", error: err })
         }

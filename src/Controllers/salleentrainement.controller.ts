@@ -14,7 +14,7 @@ export class SalleEntrainementController{
             const salle = req.body as SalleEntrainement
             await this.salleEntrainementService.createSalle(salle)
 
-            res.json("nouvelle salle ajoutée")
+            res.status(200).json("nouvelle salle ajoutée")
         } catch (err) {
             console.error("createSalle error:", err)
             res.status(400).json({ message: "not gud", error: err })
@@ -29,7 +29,7 @@ export class SalleEntrainementController{
             if(!out){
                 return res.status(400).json({message: "n'a pas pu accepter, salle existe pas"})
             }
-            res.json(`Salle ${salleid} approuvée!`)
+            res.status(200).json(`Salle ${salleid} approuvée!`)
         }catch(err){
             res.status(400).json({message: "pas pu accepter ", error: err})
         }
@@ -40,7 +40,7 @@ export class SalleEntrainementController{
             const salle = req.body as SalleEntrainement
             const salleid = Number(req.params.id)
             await this.salleEntrainementService.modifySalle(salle, salleid)
-            res.json(`modification de la salle: ${salleid}`)
+            res.status(200).json(`modification de la salle: ${salleid}`)
         } catch(err){
             console.error("modifySalle error:", err)
             res.status(400).json({message: "not uhmmm...", error: err})
@@ -51,7 +51,7 @@ export class SalleEntrainementController{
         try{
             const salleid = Number(req.params.id)
             await this.salleEntrainementService.deleteSalle(salleid)
-            res.json("salle supprimée")
+            res.status(200).json("salle supprimée")
         } catch (err){
             console.error("deleteSalle error:", err)
             res.status(400).json({message: "not bad?", error: err})

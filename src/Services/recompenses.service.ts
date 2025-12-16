@@ -13,6 +13,12 @@ export class RecompensesService{
     async assignRecompense(accomplissement: Accomplissement){
         const conn = await ConnectToDatabase()
 
-        const sql = "INSERT INTO accomplissement (user, recompense) VALUES (?, ?)"
+        try {
+            const sql = "INSERT INTO accomplissement (user, recompense) VALUES (?, ?)"
+            await conn.query(sql, [accomplissement.user, accomplissement.recompense])
+        } catch (err) {
+            console.error("Erreur assignRecompense", err)
+            throw err
+        }
     }
 }
