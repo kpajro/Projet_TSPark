@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise"
 import { ConnectToDatabase } from "../Utils"
+import { User } from "../Models"
 
 export class UserService{
     async FindUsers(){
@@ -8,6 +9,13 @@ export class UserService{
             "SELECT id, name, role_id, actif FROM users"
         )
         return users
+    }
+
+    async CreateUser(user: User){
+        const conn = await ConnectToDatabase()
+        const sql = `INSERT INTO users (nom, role_id, actif) VALUES (?, ?, ?)`
+
+        await conn.query(sql, [user.name, user.role, user.actif])
     }
     
     async ActiveUser(userIds: number[]){

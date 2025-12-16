@@ -1,7 +1,7 @@
 import { json, Request, Response, Router } from "express"
 import { UserService } from "../Services"
 import { RoleAuth } from "../Middlewares";
-import { Roles } from "../Models";
+import { Roles, User } from "../Models";
 
 export class UserController{
     readonly UserService: UserService;
@@ -29,6 +29,16 @@ export class UserController{
         }
     }
 
+    async CreateUser(req: Request, res: Response){
+        try {
+            const user = req.body as User
+            await this.UserService.CreateUser(user)
+            res.status(200).json({message: `Users created: ${user.id}`})
+        } catch(err){
+            res.status(400).json({message: "Create User failed", error: err})
+        }
+    }
+
     async DeleteUsers(req: Request, res: Response){
         try {
             const { userIds } = req.body as { userIds: number[]}
@@ -46,9 +56,10 @@ export class UserController{
     buildRouter(): Router{
         const router = Router()
 
-        router.get("/", RoleAuth([Roles.proprietaire]), this.GetUsers.bind(this))
-        router.patch("/actif", this.ToggleUser.bind(this))
-        router.delete("/delete-users", this.DeleteUsers.bind(this))
+        router.get("/", RoleAuth([Roles.admin]), this.GetUsers.bind(this))
+        router.patch("/actif", RoleAuth([Roles.admin]),this.ToggleUser.bind(this))
+        router.post("/create-user", RoleAuth([Roles.user]), this.CreateUser.bind(this))
+        router.delete("/delete-users", RoleAuth([Roles.admin]), this.DeleteUsers.bind(this))
         return router
     }
 }

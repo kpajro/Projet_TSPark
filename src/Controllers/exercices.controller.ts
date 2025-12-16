@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express"
-import { Exercice } from "../Models"
+import { Exercice, Roles } from "../Models"
 import { ExerciceService } from "../Services"
+import { RoleAuth } from "../Middlewares"
 
 export class ExerciceController{
     readonly exerciceService: ExerciceService
@@ -47,9 +48,9 @@ export class ExerciceController{
     buildRouter(): Router{
         const router = Router()
 
-        router.post("/create-exercice", this.newExercice.bind(this))
-        router.put("/modify-exercice/:id", this.modifyExercice.bind(this))
-        router.delete("/delete-exercice/:id", this.delExercice.bind(this))
+        router.post("/create-exercice", RoleAuth([Roles.admin]),  this.newExercice.bind(this))
+        router.put("/modify-exercice/:id", RoleAuth([Roles.admin]), this.modifyExercice.bind(this))
+        router.delete("/delete-exercice/:id", RoleAuth([Roles.admin]), this.delExercice.bind(this))
         return router
     }
 }

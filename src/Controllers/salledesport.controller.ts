@@ -33,8 +33,8 @@ export class SalleDeSportController{
     buildRouter(): Router{
         const router = Router()
 
-        router.get("/get-salle-info/:id", RoleAuth([Roles.admin]),this.infoSalleDeSport.bind(this))
-        router.get("/getSalles", RoleAuth([Roles.user]), this.toutesLesSallesDeSport.bind(this))
+        router.get("/get-salle-info/:id", RoleAuth([Roles.proprietaire, Roles.user]),this.infoSalleDeSport.bind(this))
+        router.get("/getSalles", RoleAuth([Roles.proprietaire, Roles.user]), this.toutesLesSallesDeSport.bind(this))
         return router
     }
 }

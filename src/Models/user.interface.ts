@@ -11,5 +11,4 @@ export interface User{
     name: string
     role: Roles
     actif: boolean
-    seances: Seance[]
 }

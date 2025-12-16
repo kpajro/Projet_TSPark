@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { DefiService } from "../Services/defis.service";
-import { Defis } from "../Models";
+import { Defis, Roles } from "../Models";
+import { RoleAuth } from "../Middlewares";
 
 export class DefiController{
     readonly defiService: DefiService
@@ -110,12 +111,14 @@ export class DefiController{
     buildRouter(): Router{
         const router = Router()
 
-        router.post("/create-defi", this.createDefi.bind(this))
-        router.post("/invite", this.inviteUser.bind(this))
-        router.post("/accept", this.acceptDefi.bind(this))
-        router.post("/complete", this.completeDefi.bind(this))
-        router.get("/user/:userId", this.getMyDefis.bind(this))
-        router.get("/explore", this.exploreDefis.bind(this))
+        router.post("/create-defi", RoleAuth([Roles.proprietaire, Roles.user]), this.createDefi.bind(this))
+        router.post("/invite", RoleAuth([Roles.user]), this.inviteUser.bind(this))
+        router.post("/accept", RoleAuth([Roles.user]), this.acceptDefi.bind(this))
+        router.post("/complete", RoleAuth([Roles.user]), this.completeDefi.bind(this))
+        router.post("/propose", RoleAuth([Roles.proprietaire]), this.proposeDefi.bind(this))
+        router.post("/partager", RoleAuth([Roles.user]), this.shareDefi.bind(this))
+        router.get("/user/:userId", RoleAuth([Roles.proprietaire, Roles.user]), this.getMyDefis.bind(this))
+        router.get("/explore", RoleAuth([Roles.proprietaire, Roles.user]), this.exploreDefis.bind(this))
         return router
     }
 }

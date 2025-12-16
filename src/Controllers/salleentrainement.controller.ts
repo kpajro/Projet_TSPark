@@ -1,6 +1,8 @@
 import { Request, Response, Router } from "express"
 import { SalleEntrainement } from "../Models"
 import { SalleEntrainementService } from "../Services"
+import { RoleAuth } from "../Middlewares"
+import { Roles } from "../Models"
 
 export class SalleEntrainementController{
     readonly salleEntrainementService: SalleEntrainementService
@@ -61,9 +63,10 @@ export class SalleEntrainementController{
     buildRouter(): Router{
         const router = Router()
 
-        router.post("/create-salle", this.newSalle.bind(this))
-        router.put("/modify-salle/:id", this.modifySalle.bind(this))
-        router.delete("/delete-salle/:id", this.delSalle.bind(this))
+        router.post("/create-salle", RoleAuth([Roles.proprietaire]), this.newSalle.bind(this))
+        router.post("/approve-salle/:id", RoleAuth([Roles.admin]), this.approveSalle.bind(this))
+        router.put("/modify-salle/:id", RoleAuth([Roles.admin]), this.modifySalle.bind(this))
+        router.delete("/delete-salle/:id", RoleAuth([Roles.admin]), this.delSalle.bind(this))
         return router
     }
 }

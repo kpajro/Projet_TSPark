@@ -1,4 +1,5 @@
-import { Accomplissement, Recompense } from "../Models";
+import { RoleAuth } from "../Middlewares";
+import { Accomplissement, Recompense, Roles } from "../Models";
 import { RecompensesService } from "../Services/recompenses.service";
 import { Request, Response, Router} from "express"
 
@@ -32,8 +33,8 @@ export class recompenseController{
     buildRouter(): Router{
         const router = Router()
 
-        router.post("/create-recompense", this.createRecompense.bind(this))
-        router.post("/assing-recompense", this.assignRecompense.bind(this))
+        router.post("/create-recompense", RoleAuth([Roles.admin]), this.createRecompense.bind(this))
+        router.post("/assign-recompense", RoleAuth([Roles.admin]), this.assignRecompense.bind(this))
 
         return router
     }
