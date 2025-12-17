@@ -1,5 +1,5 @@
 import { Exercice } from "./exercice.interface"
-import { Recompense } from "./recompenses.interface"
+import { Recompense } from "./recompense.interface"
 import { SalleDeSport } from "./sallesport.interface"
 import { Seance } from "./seance.interface"
 import { User } from "./user.interface"

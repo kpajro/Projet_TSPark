@@ -11,4 +11,5 @@ export interface User{
     name: string
     role: Roles
     actif: boolean
+    points: number
 }

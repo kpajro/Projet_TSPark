@@ -9,7 +9,6 @@ export class ExerciceService{
         await conn.query(sql, [exercice.nom, exercice.description, exercice.complémentaire])
     }
 
-    //@Rev:-> #ALL: refaire la requête en Patch (flemme pour l'instant)
     async modifyExercice(exercice: Exercice, exerciceid: number){
         const conn = await ConnectToDatabase()
 

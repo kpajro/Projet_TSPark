@@ -3,27 +3,27 @@ import { Accomplissement, Recompense, Roles } from "../Models";
 import { RecompensesService } from "../Services/recompenses.service";
 import { Request, Response, Router} from "express"
 
-export class recompenseController{
-    readonly recompenseService: RecompensesService
+export class RecompensesController{
+    readonly recompensesService: RecompensesService
 
     constructor(recompenseServ: RecompensesService){
-        this.recompenseService = recompenseServ
+        this.recompensesService = recompenseServ
     }
 
     async createRecompense(req: Request, res: Response){
         try{
             const recomp = req.body as Recompense
-            await this.recompenseService.createRecompense(recomp)
+            await this.recompensesService.createRecompense(recomp)
             res.status(200).json("creation de la récompense")
         }catch(err){
-            res.status(400).json({message: "j", error:err})
+            res.status(400).json({message: "create recompense failed", error:err})
         }
     }
 
     async assignRecompense(req: Request, res: Response){
         try {
-            const recompense = req.body as Accomplissement
-            const result = await this.recompenseService.assignRecompense(recompense)
+            const accomplissement = req.body as Accomplissement
+            const result = await this.recompensesService.assignRecompense(accomplissement)
             res.status(200).json({ message: "récompense attribuée", data: result })
         } catch (err) {
             res.status(400).json({ message: "error assignRecompense", error: err })

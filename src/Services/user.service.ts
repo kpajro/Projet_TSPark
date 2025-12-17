@@ -13,9 +13,9 @@ export class UserService{
 
     async CreateUser(user: User){
         const conn = await ConnectToDatabase()
-        const sql = `INSERT INTO users (nom, role_id, actif) VALUES (?, ?, ?)`
+        const sql = `INSERT INTO users (name, actif) VALUES (?, ?)`
 
-        await conn.query(sql, [user.name, user.role, user.actif])
+        await conn.query(sql, [user.name, user.actif])
     }
     
     async ActiveUser(userIds: number[]){

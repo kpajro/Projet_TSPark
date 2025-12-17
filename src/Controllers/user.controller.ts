@@ -33,7 +33,7 @@ export class UserController{
         try {
             const user = req.body as User
             await this.UserService.CreateUser(user)
-            res.status(200).json({message: `Users created: ${user.id}`})
+            res.status(200).json({message: `Users created`})
         } catch(err){
             res.status(400).json({message: "Create User failed", error: err})
         }

@@ -8,5 +8,5 @@ export interface SalleEntrainement{
     equipements: string[]
     responsable: User
     salledesport: SalleDeSport
-    accepted: boolean
+    accepted: number
 }

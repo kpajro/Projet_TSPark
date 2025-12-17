@@ -25,9 +25,8 @@ export class SalleEntrainementController{
 
     async approveSalle(req: Request, res: Response){
         try {
-            const salle = req.body as SalleEntrainement
-            const salleid = Number(req.body.params)
-            const out = await this.salleEntrainementService.approveSalle(salle, salleid)
+            const salleid = Number(req.params.id)
+            const out = await this.salleEntrainementService.approveSalle(salleid)
             if(!out){
                 return res.status(400).json({message: "n'a pas pu accepter, salle existe pas"})
             }
@@ -45,7 +44,7 @@ export class SalleEntrainementController{
             res.status(200).json(`modification de la salle: ${salleid}`)
         } catch(err){
             console.error("modifySalle error:", err)
-            res.status(400).json({message: "not uhmmm...", error: err})
+            res.status(400).json({message: "Could not modify Salle", error: err})
         }
     }
 
@@ -56,7 +55,7 @@ export class SalleEntrainementController{
             res.status(200).json("salle supprimée")
         } catch (err){
             console.error("deleteSalle error:", err)
-            res.status(400).json({message: "not bad?", error: err})
+            res.status(400).json({message: "Could not delete Salle", error: err})
         }
     }
 
