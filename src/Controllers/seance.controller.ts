@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express"
 import { SeanceService } from "../Services/seance.service"
-import { Seance } from "../Models"
+import { Roles, Seance } from "../Models"
+import { RoleAuth } from "../Middlewares"
 
 export class SeanceController{
     readonly seanceService: SeanceService
@@ -34,8 +35,8 @@ export class SeanceController{
     buildRouter(): Router {
         const router = Router()
 
-        router.post("/add-session", this.addSession.bind(this))
-        router.get("/progression/:userId/:defiId", this.getProgression.bind(this)
+        router.post("/add-session", RoleAuth([Roles.user]), this.addSession.bind(this))
+        router.get("/progression/:userId/:defiId", RoleAuth([Roles.user]), this.getProgression.bind(this)
         )
 
         return router

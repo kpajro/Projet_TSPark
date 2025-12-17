@@ -1,5 +1,3 @@
-import { Seance } from "./seance.interface"
-
 export enum Roles{
     user,
     proprietaire,
