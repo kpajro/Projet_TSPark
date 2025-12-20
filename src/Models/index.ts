@@ -1,7 +1,6 @@
 export * from "./user.interface"
 export * from "./seance.interface"
 export * from "./sallesport.interface"
-export * from "./salleentrainement.interface"
 export * from "./recompense.interface"
 export * from "./participation.interface"
 export * from "./exercice.interface"

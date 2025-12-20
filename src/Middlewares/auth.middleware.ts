@@ -32,6 +32,8 @@ export function RoleAuth(roles: Roles[]) {
             if (roles.includes(decoded.role)) {
                 return next()
             }
+            //console.log('decoded JWT:', decoded)
+            //console.log('Roles enum:', Roles)
 
             return res.status(403).json({ message: "Forbidden: permissions not elevated" })
         } catch (err) {

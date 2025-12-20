@@ -1,4 +1,3 @@
-import { RowDataPacket } from "mysql2/promise"
 import { ConnectToDatabase } from "../Utils"
 import { User } from "../Models"
 
@@ -6,7 +5,7 @@ export class UserService{
     async FindUsers(){
         const conn = await ConnectToDatabase()
         const [users] = await conn.query(
-            "SELECT id, name, role_id, actif FROM users"
+            "SELECT id, name, email, role_id, actif FROM users"
         )
         return users
     }

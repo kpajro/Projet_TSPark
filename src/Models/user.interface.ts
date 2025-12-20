@@ -1,7 +1,7 @@
 export enum Roles{
-    user,
-    proprietaire,
-    admin
+    user = 1,
+    proprietaire = 2,
+    admin = 3
 }
 
 export interface User{

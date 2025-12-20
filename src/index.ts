@@ -12,8 +12,8 @@ const port = 3000;
 
 app.use(express.json())
 app.use(cors({
-    origin: 'https://fronttspark.onrender.com',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    origin: ['https://fronttspark.onrender.com', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
 }))
 builder(app, controllers)

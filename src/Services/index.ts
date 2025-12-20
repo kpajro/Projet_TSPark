@@ -1,5 +1,4 @@
 export * from "./user.service"
-export * from "./salleentrainement.service"
 export * from "./exercices.service"
 export * from "./salledesport.service"
 export * from "./defis.service"

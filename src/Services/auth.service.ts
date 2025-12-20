@@ -22,7 +22,7 @@ export class AuthService {
 
     async loginUser(email: string, password: string) {
         const conn = await ConnectToDatabase()
-        const checksql = 'SELECT * FROM users WHERE email = ? LIMIT 1'
+        const checksql = 'SELECT id, name, role_id, actif, points, password FROM users WHERE email = ? LIMIT 1'
         const [rows]: any = await conn.query(checksql, [email])
 
         if (!rows.length) {
@@ -30,6 +30,7 @@ export class AuthService {
         }
 
         const user = rows[0]
+        console.log(user)
 
         if (!user.actif) {
             throw new Error('USER_INACTIVE')
@@ -40,20 +41,25 @@ export class AuthService {
             throw new Error('INVALID_CREDENTIALS')
         }
 
+        const payload = {
+          id: user.id,
+          role: user.role_id
+        }
+
         const token = jwt.sign(
-            { userId: user.id, role: user.role },
+            payload,
             process.env.JWT_SECRET!,
-            { expiresIn: '24h' }
+            { expiresIn: '7d' }
         )
 
     return {
         token,
             user: {
-              id: user.id,
-              name: user.name,
-              role: user.role,
-              actif: user.actif,
-              points: user.points
+                id: user.id,
+                name: user.name,
+                role: user.role_id,
+                actif: user.actif,
+                points: user.points
             }
         }
     }
