@@ -4,12 +4,18 @@ import * as controllers from "./Controllers"
 import { builder } from "./Utils"
 import { generateSessionToken } from "./Middlewares";
 import { Roles } from "./Models";
+import cors from 'cors'
 
 config({quiet: true, path: '.env'});
 const app = express();
 const port = 3000;
 
 app.use(express.json())
+app.use(cors({
+    origin: 'https://fronttspark.onrender.com',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+}))
 builder(app, controllers)
 
 app.get('/', (req, res) => {
