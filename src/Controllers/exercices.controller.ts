@@ -13,9 +13,13 @@ export class ExerciceController{
     async newExercice(req: Request, res: Response){
         try {
             const exercice = req.body as Exercice
+            
+            if (!exercice) {
+                return res.status(400).json({ message: "Invalid exercice structure" })
+            }
             await this.exerciceService.createExercice(exercice)
 
-            res.status(200).json("nouveaux exercice ajouté")
+            res.status(201).json("nouveaux exercice ajouté")
         } catch (err) {
             console.error("createExercice error:", err)
             res.status(400).json({ message: "Add Request failed", error: err })
@@ -24,10 +28,13 @@ export class ExerciceController{
 
     async modifyExercice(req: Request, res: Response){
         try {
-            const exercice = req.body as Exercice
             const exerciceid = Number(req.params.id)
-            await this.exerciceService.modifyExercice(exercice, exerciceid)
-            res.status(200).json(`exercice : ${exerciceid} modifié`)
+            if (isNaN(exerciceid)) {
+                return res.status(400).json({ message: "Invalid exercice id" })
+            }
+            const exercice = req.body as Exercice
+            await this.exerciceService.modifyExercice(exerciceid, exercice)
+            res.status(201).json(`exercice : ${exerciceid} modifié`)
         } catch(err){
             console.error("modifyExercice error:", err)
             res.status(400).json({message: "Modify Request failed", error: err})
@@ -37,8 +44,11 @@ export class ExerciceController{
     async delExercice(req: Request, res: Response){
         try{
             const exerciceid = Number(req.params.id)
+            if (isNaN(exerciceid)) {
+                return res.status(400).json({ message: "Invalid exercice id" })
+            }
             await this.exerciceService.deleteExercice(exerciceid)
-            res.status(200).json("exercice supprimé")
+            res.status(204).json("exercice supprimé")
         } catch (err){
             console.error("deleteExercice error:", err)
             res.status(400).json({message: "Delete Request failed", error: err})

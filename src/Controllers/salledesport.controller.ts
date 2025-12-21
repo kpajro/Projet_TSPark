@@ -16,17 +16,20 @@ export class SalleDeSportController{
             const out = await this.salleDeSportService.getSallesDeSports()
             res.status(200).json(out)
         }catch(err){
-            res.status(400).json({message: "ede", error:err})
+            res.status(500).json({message: "ede", error:err})
         }
     }
 
     async infoSalleDeSport(req: Request, res: Response){
         try{
             const salleid = Number(req.params.id)
+            if (isNaN(salleid)) {
+                return res.status(400).json({ message: "id invalide" })
+            }
             const out = await this.salleDeSportService.getLaSalleDeSport(salleid)
             res.status(200).json(out)
         }catch(err){
-            res.status(400).json({message: "ede", error:err})
+            res.status(500).json({message: "erreur récupération", error:err})
         }
     }
 
@@ -34,17 +37,22 @@ export class SalleDeSportController{
             try {
                 const salle = req.body as SalleDeSport
                 await this.salleDeSportService.createSalle(salle)
-                
+                if (!salle) {
+                    return res.status(400).json({ message: "Payload invalide" })
+                }
                 res.status(200).json("nouvelle salle ajoutée")
             } catch (err) {
                 console.error("createSalle error:", err)
-                res.status(400).json({ message: "not gud", error: err })
+                res.status(400).json({ message: "Erreur création salle", error: err })
             }
         }
     
         async approveSalle(req: Request, res: Response){
             try {
                 const salleid = Number(req.params.id)
+                if (isNaN(salleid)) {
+                    return res.status(400).json({ message: "id invalide" })
+                }
                 const out = await this.salleDeSportService.approveSalle(salleid)
                 if(!out){
                     return res.status(400).json({message: "n'a pas pu accepter, salle existe pas"})
@@ -59,7 +67,7 @@ export class SalleDeSportController{
             try {
                 const salle = req.body as SalleDeSport
                 const salleid = Number(req.params.id)
-                await this.salleDeSportService.modifySalle(salle, salleid)
+                await this.salleDeSportService.modifySalle(salleid, salle)
                 res.status(200).json(`modification de la salle: ${salleid}`)
             } catch(err){
                 console.error("modifySalle error:", err)

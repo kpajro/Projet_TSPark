@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     const tokenadmin = generateSessionToken(5, Roles.admin)
     const tokenproprio = generateSessionToken(5, Roles.proprietaire)
     const tokenuser = generateSessionToken(5, Roles.user)
-    res.json("token user:"+tokenuser+ "" + "token proprio:" + tokenproprio+ "" + "token admin:" + tokenadmin)
+    res.json(["token user:"+tokenuser+ "", "token proprio:" + tokenproprio+ "", "token admin:" + tokenadmin])
 });
 
 app.listen(port, () => {console.log(`App running locally at localhost:${port}`)});

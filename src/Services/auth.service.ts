@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { ConnectToDatabase } from '../Utils/database'
-import { Roles, User } from '../Models/user.interface'
+import { User } from '../Models/user.interface'
 
 export class AuthService {
 
@@ -17,7 +17,7 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(user.password, 10)
         const sql = `INSERT INTO users (name, email, password, role_id, actif, points) VALUES (?, ?, ?, ?, 1, 0)`
-        await conn.query(sql, [user.name, user.email, hashedPassword, 1])
+        await conn.query(sql, [user.name, user.email, hashedPassword, 1, 1])
     }
 
     async loginUser(email: string, password: string) {

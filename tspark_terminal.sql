@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 21 déc. 2025 à 01:04
+-- Généré le : dim. 21 déc. 2025 à 16:21
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -37,7 +37,7 @@ CREATE TABLE `accomplissement` (
 --
 
 INSERT INTO `accomplissement` (`user_id`, `recompense_id`) VALUES
-(1, 3);
+(2, 10);
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE `defis` (
   `difficulte` int(11) NOT NULL,
   `recompense_id` int(11) DEFAULT NULL,
   `objectifs` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`objectifs`)),
-  `byUser` tinyint(1) NOT NULL DEFAULT 0,
+  `byUser` tinyint(1) DEFAULT 0,
   `debut` datetime NOT NULL,
   `fin` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -65,8 +65,10 @@ INSERT INTO `defis` (`id`, `nom`, `difficulte`, `recompense_id`, `objectifs`, `b
 (2, 'Défi Force 1', 2, 2, '{\"reps\": 50}', 0, '2024-02-02 09:00:00', '2026-02-08 09:00:00'),
 (8, 'Défi Elite', 4, 8, '{\"temps\": 90}', 0, '2024-02-08 15:00:00', '2024-02-14 15:00:00'),
 (9, 'Défi Marathon', 5, 9, '{\"distance\": 42195}', 0, '2024-02-09 16:00:00', '2024-02-15 16:00:00'),
-(10, 'Défi Titan', 5, 10, '{\"reps\": 100}', 0, '2024-02-10 17:00:00', '2024-02-16 17:00:00'),
-(14, 'Test Defi', 2, 2, NULL, 0, '2024-11-01 08:00:00', '2024-11-01 10:00:00');
+(10, 'Défi Titan', 5, 10, '{\"reps\":100}', 0, '2024-02-10 17:00:00', '2024-02-16 17:00:00'),
+(14, 'Test Defi', 2, 2, NULL, 0, '2024-11-01 08:00:00', '2024-11-01 10:00:00'),
+(15, 'Test Defi', 2, 2, '\"{reps: 40}\"', 1, '2024-11-01 08:00:00', '2024-11-01 10:00:00'),
+(19, 'Défi des Grandes Cités', 5, 2, '{\"Distance\":30000}', 1, '2023-04-01 00:00:00', '2024-04-30 23:59:59');
 
 -- --------------------------------------------------------
 
@@ -91,7 +93,7 @@ INSERT INTO `defis_exercices` (`id`, `defi_id`, `exercice_id`) VALUES
 (4, 2, 8),
 (5, 8, 4),
 (6, 9, 7),
-(7, 9, NULL),
+(7, 9, 4),
 (8, 10, 2),
 (9, 10, 9);
 
@@ -142,8 +144,7 @@ CREATE TABLE `participationdefi` (
 --
 
 INSERT INTO `participationdefi` (`id`, `user_id`, `defi_id`, `seance_id`, `status`) VALUES
-(1, NULL, 2, 8, 'completed'),
-(2, NULL, 2, 2, 'completed');
+(10, 2, 10, 13, 'completed');
 
 -- --------------------------------------------------------
 
@@ -173,7 +174,10 @@ INSERT INTO `recompenses` (`id`, `nom`, `type`, `points`) VALUES
 (8, 'Ultimate Badge', 'badge', 50),
 (9, 'Boost XP', 'recompense', 35),
 (10, 'Mega Reward', 'recompense', 45),
-(11, 'Débutant Cardio', 'badge', 10);
+(11, 'Débutant Cardio', 'badge', 10),
+(12, 'Débutant Cardio', 'badge', 10),
+(13, 'Débutant Cardio', 'recompense', 10),
+(14, 'Débutant Cardio', 'recompense', 10);
 
 -- --------------------------------------------------------
 
@@ -207,7 +211,7 @@ CREATE TABLE `salledesport` (
   `responsable_id` int(11) DEFAULT NULL,
   `capacite` int(11) DEFAULT NULL,
   `equipements` varchar(100) DEFAULT NULL,
-  `accepted` int(11) NOT NULL DEFAULT 0,
+  `accepted` int(11) NOT NULL,
   `adresse` varchar(255) DEFAULT NULL,
   `numtel` bigint(20) DEFAULT NULL,
   `description` text DEFAULT NULL,
@@ -219,14 +223,16 @@ CREATE TABLE `salledesport` (
 --
 
 INSERT INTO `salledesport` (`id`, `nom`, `responsable_id`, `capacite`, `equipements`, `accepted`, `adresse`, `numtel`, `description`, `activites`) VALUES
-(1, 'FitZone A', 1, 20, '', 0, '10 Rue Alpha', 610203040, 'Salle moderne.', '[\"cardio\", \"muscu\"]'),
-(2, 'FitZone B', 1, 40, '', 0, '20 Rue Beta', 610203041, 'Grande salle.', '[\"yoga\", \"pilates\"]'),
-(3, 'UrbanGym', 1, 15, '', 0, '30 Rue Gamma', 610203042, 'Ouverte 24/24.', '[\"crossfit\", \"cardio\"]'),
-(4, 'PowerClub', 1, 24, '', 0, '40 Rue Delta', 610203043, 'Ambiance motivante.', '[\"muscu\"]'),
-(5, 'ZenStudio', 1, 54, '', 0, '50 Rue Epsilon', 610203044, 'Spécial bien-être.', '[\"yoga\"]'),
-(6, 'MegaFit', 1, 53, '', 1, '60 Rue Zeta', 610203045, 'Salle géante.', '[\"muscu\", \"cardio\"]'),
-(11, 'Super Salle', 1, 20, NULL, 1, NULL, NULL, NULL, NULL),
-(15, 'asa', NULL, 23, '[\"dzasad\",\"fdasda\"]', 0, NULL, NULL, NULL, NULL);
+(1, 'FitZone A', NULL, 30, '[\"gants\",\"trucs\"]', 1, '10 Rue Alpha', 610203040, 'Salle moderne.', '[\"cardio\", \"muscu\"]'),
+(2, 'FitZone B', NULL, 40, '', 0, '20 Rue Beta', 610203041, 'Grande salle.', '[\"yoga\", \"pilates\"]'),
+(3, 'UrbanGym', NULL, 15, '', 0, '30 Rue Gamma', 610203042, 'Ouverte 24/24.', '[\"crossfit\", \"cardio\"]'),
+(4, 'PowerClub', NULL, 24, '', 0, '40 Rue Delta', 610203043, 'Ambiance motivante.', '[\"muscu\"]'),
+(5, 'ZenStudio', NULL, 54, '', 0, '50 Rue Epsilon', 610203044, 'Spécial bien-être.', '[\"yoga\"]'),
+(6, 'MegaFit', NULL, 53, '', 1, '60 Rue Zeta', 610203045, 'Salle géante.', '[\"muscu\", \"cardio\"]'),
+(11, 'Super Salle de Sport', 2, 10, '[\"muscu\",\"cardio\"]', 1, NULL, NULL, 'salle de sport!!!?!!!', NULL),
+(17, 'Super Salle', 2, 20, '[\"muscu\",\"cardio\"]', 0, NULL, NULL, 'salle de sport?', NULL),
+(18, 'Super Salle', 2, 20, '[\"muscu\",\"cardio\"]', 0, '123 Rue des Sports', 123456789, 'salle de sport?', '[\"test\",\"test2\"]'),
+(19, 'test', 2, 123, '[\"troncs\"]', 1, 'null', 10101010, 'super', '[\"super\",\"activites\"]');
 
 -- --------------------------------------------------------
 
@@ -247,13 +253,8 @@ CREATE TABLE `seances` (
 --
 
 INSERT INTO `seances` (`id`, `user_id`, `calories`, `date`, `temps`) VALUES
-(1, 1, 300, '2024-01-05 10:00:00', 45),
-(2, 1, 450, '2024-01-06 11:00:00', 60),
-(8, 1, 420, '2024-01-12 12:00:00', 55),
-(9, 1, 530, '2024-01-13 15:00:00', 65),
-(10, 1, 300, '2024-01-14 16:30:00', 35),
-(11, 1, 1000, '2025-12-10 22:50:59', 160),
-(12, 1, 300, '2023-04-10 12:00:00', 60);
+(13, 2, 420, '2025-12-21 14:44:43', 55),
+(15, 2, 300, '2023-04-10 12:00:00', 60);
 
 -- --------------------------------------------------------
 
@@ -276,7 +277,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role_id`, `actif`, `points`) VALUES
-(1, 'jean', 'jean@gmail.com', '$2b$10$H62Ekt172oF//JCRqTAhGO0XwvYWCKjXtu48deoE6sOlJFYSQvxv.', 1, 1, 0);
+(2, 'Jeremy', 'jeremy@example.com', '$2b$10$a.tv7yv9hKhLe6ob4tKXcOD4ueKjqaXAOg8kjehrYynivxRQOzllS', 3, 1, 140),
+(5, 'testeur', 'testeur@gmail.com', '$2b$10$Nsfk/iKDrtj.0Q2unYfmvuaMmhajmgzN25c5pdGa/6R5/.RvDSuXm', 1, 1, 0);
 
 --
 -- Index pour les tables déchargées
@@ -363,7 +365,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `defis`
 --
 ALTER TABLE `defis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `defis_exercices`
@@ -375,19 +377,19 @@ ALTER TABLE `defis_exercices`
 -- AUTO_INCREMENT pour la table `exercices`
 --
 ALTER TABLE `exercices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `participationdefi`
 --
 ALTER TABLE `participationdefi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `recompenses`
 --
 ALTER TABLE `recompenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `roles`
@@ -399,19 +401,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `salledesport`
 --
 ALTER TABLE `salledesport`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `seances`
 --
 ALTER TABLE `seances`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Contraintes pour les tables déchargées
@@ -440,15 +442,15 @@ ALTER TABLE `defis_exercices`
 -- Contraintes pour la table `participationdefi`
 --
 ALTER TABLE `participationdefi`
-  ADD CONSTRAINT `participationdefi_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `participationdefi_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `participationdefi_ibfk_2` FOREIGN KEY (`defi_id`) REFERENCES `defis` (`id`),
-  ADD CONSTRAINT `participationdefi_ibfk_3` FOREIGN KEY (`seance_id`) REFERENCES `seances` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `participationdefi_ibfk_3` FOREIGN KEY (`seance_id`) REFERENCES `seances` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `salledesport`
 --
 ALTER TABLE `salledesport`
-  ADD CONSTRAINT `responsable_ibfk_1` FOREIGN KEY (`responsable_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `responsable_ibfk_1` FOREIGN KEY (`responsable_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Contraintes pour la table `seances`

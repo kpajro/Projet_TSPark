@@ -3,6 +3,9 @@ import { ConnectToDatabase } from "../Utils"
 
 export class SeanceService{
     async addSession(seance: Seance) {
+        if (!seance.user?.id) {
+            throw new Error("Utilisateur requis")
+        }
         const conn = await ConnectToDatabase()
         const sql = "INSERT INTO seances (user_id, calories, date, temps) VALUES (?, ?, ?, ?)"
         await conn.query(sql, [seance.user.id, seance.calories, seance.date, seance.temps])

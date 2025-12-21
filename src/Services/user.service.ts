@@ -9,13 +9,6 @@ export class UserService{
         )
         return users
     }
-
-    async CreateUser(user: User){
-        const conn = await ConnectToDatabase()
-        const sql = `INSERT INTO users (name, actif) VALUES (?, ?)`
-
-        await conn.query(sql, [user.name, user.actif])
-    }
     
     async ActiveUser(userIds: number[]){
         if (userIds.length === 0){
@@ -36,5 +29,25 @@ export class UserService{
         const temptable = userIds
         const sql = `DELETE FROM users WHERE id IN (${temptable})`
         await conn.query(sql, [userIds])
+    }
+
+    async getLeaderboard(limit = 10) {
+        const conn = await ConnectToDatabase()
+        const sql = `SELECT id, name, points FROM users WHERE actif = 1 ORDER BY points DESC LIMIT ?`
+        const [rows] = await conn.query(sql, [limit])
+
+        return rows
+    }
+
+    async getActiveUsers(limit = 10) {
+        if (limit <= 0) {
+            throw new Error("limit invalide")
+        }
+
+        const conn = await ConnectToDatabase()
+        const sql = `SELECT u.id, u.name, COUNT(p.id) AS completedDefis FROM users u JOIN participationdefi p ON p.user_id = u.id WHERE p.status = 'completed' GROUP BY u.id ORDER BY completedDefis DESC LIMIT ?`
+        const [rows] = await conn.query(sql, [limit])
+
+        return rows
     }
 }
