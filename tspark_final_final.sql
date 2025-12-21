@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 18 déc. 2025 à 00:33
+-- Généré le : sam. 20 déc. 2025 à 14:17
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -288,20 +288,24 @@ INSERT INTO `seances` (`id`, `user_id`, `calories`, `date`, `temps`) VALUES
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `email` varchar(80) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `role_id` int(11) NOT NULL DEFAULT 1,
-  `actif` tinyint(1) NOT NULL DEFAULT 1
+  `actif` tinyint(1) NOT NULL DEFAULT 1,
+  `points` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `role_id`, `actif`) VALUES
-(1, 'Alice Martin', 1, 1),
-(2, 'Bob Dupont', 1, 1),
-(8, 'Hugo Laurent', 1, 1),
-(9, 'Isabelle Petit', 2, 1),
-(10, 'Julien Caron', 1, 1);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role_id`, `actif`, `points`) VALUES
+(1, 'Alice Martin', '', '', 1, 1, 0),
+(2, 'Bob Dupont', '', '', 1, 1, 0),
+(8, 'Hugo Laurent', '', '', 1, 1, 0),
+(9, 'Isabelle Petit', '', '', 2, 1, 0),
+(10, 'Julien Caron', '', '', 1, 1, 0),
+(22, 'Jean', 'blublu@gmail.com', '$2b$10$hULJqFszJzkDayd4YbFhvu1IlkUcIDxa/Pw8MzqO9iZAen7zd5/3y', 1, 1, 0);
 
 --
 -- Index pour les tables déchargées
@@ -448,7 +452,7 @@ ALTER TABLE `seances`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Contraintes pour les tables déchargées
